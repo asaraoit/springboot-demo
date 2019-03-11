@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sst.mapper.ApplyTryoutMapper">
+    <resultMap id="baseResultMap" type="com.sst.model.ApplyTryout">
+        <id column="id" property="id"></id>
+        <id column="esta_name" property="estaName"></id>
+        <id column="esta_number" property="estaNumber"></id>
+        <id column="apply_name" property="applyName"></id>
+        <id column="apply_phone" property="applyPhone"></id>
+        <id column="create_time" property="createTime"></id>
+    </resultMap>
+    <insert id="addApplyTryout" >
+    	INSERT INTO apply_tryout 
+    	(esta_name,esta_number,apply_name,apply_phone,create_time) 
+    	VALUES 
+    	(#{estaName},#{estaNumber},#{applyName},#{applyPhone},NOW())
+    </insert>
+    
+</mapper>

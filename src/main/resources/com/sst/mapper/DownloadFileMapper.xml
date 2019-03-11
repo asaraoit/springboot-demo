@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sst.mapper.DownloadFileMapper">
+    <resultMap id="baseResultMap" type="com.sst.model.DownloadFile">
+        <id column="id" property="id"></id>
+        <result column="filename" property="filename"></result>
+        <result column="version" property="version"></result>
+        <result column="update_time" property="updateTime"></result>
+        <result column="download_count" property="downloadCount"></result>
+        <result column="filename_server" property="filenameServer"></result>
+        <result column="runtime_env" property="runtimeEnv"></result>
+        <result column="file_size" property="fileSize"></result>
+        <result column="category_file" property="categoryFile"></result>
+        <result column="status" property="status"></result>
+    </resultMap>
+    <select id="getNewest" resultMap="baseResultMap">
+        select * from download_file where category_file = 1 order by update_time desc limit 0,1
+    </select>
+    
+    <select id="getDownloadList" resultMap="baseResultMap">
+        select * from download_file where category_file = #{categoryFile} order by update_time 
+    </select>
+    
+    <select id="getDownloadByIdCount" parameterType="long" resultType="int">
+        SELECT count(1) FROM download_file WHERE category_file=#{categoryFile} 
+    </select>
+    
+    <insert id="addDownloadFile">
+    	INSERT INTO download_file 
+    	(filename,version,update_time,filename_server,file_size,category_file,status) 
+    	VALUES 
+    	(#{filename},#{version},NOW(),#{filenameServer},#{fileSize},#{categoryFile},#{status})
+    </insert>
+    
+    <update id="updateDownloadFile">
+    	UPDATE download_file 
+    	<set>
+    		<if test=" filename != null ">
+    			filename=#{filename},
+    		</if>
+    		<if test=" version != null ">
+    			version=#{version},
+    		</if>
+    		<if test=" filenameServer != null ">
+    			filename_server=#{filenameServer},
+    		</if>
+    		<if test=" fileSize != null ">
+    			file_size=#{fileSize},
+    		</if>
+    		<if test=" categoryFile != null ">
+    			category_file=#{categoryFile},
+    		</if>
+    		<if test=" status != null ">
+    			status=#{status},
+    		</if>
+    		update_time=NOW() 
+    	</set>
+    	WHERE id=#{id}
+    </update>
+    
+    <update id="updateDownloadCount">
+    	UPDATE download_file SET download_count= download_count + 1  WHERE id=#{id}
+    </update>
+    
+</mapper>

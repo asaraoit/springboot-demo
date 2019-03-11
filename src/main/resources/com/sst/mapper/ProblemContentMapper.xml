@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sst.mapper.ProblemContentMapper">
+    <resultMap id="baseResultMap" type="com.sst.model.ProblemContent">
+        <id column="id" property="id"></id>
+        <result column="title" property="title"></result>
+        <result column="reason" property="reason"></result>
+        <result column="solution" property="solution"></result>
+        <result column="create_time" property="createTime"></result>
+        <result column="update_time" property="updateTime"></result>
+        <result column="pmId" property="pmId"></result>
+        <result column="status" property="status"></result>
+        
+    </resultMap>
+    <select id="getContent" resultMap="baseResultMap">
+        SELECT * FROM problem_content 
+    </select>
+    
+    <select id="getContentById" resultMap="baseResultMap" parameterType="long">
+        SELECT * FROM problem_content WHERE pmId=#{pmId} 
+    </select>
+    
+    <!-- <select id="getContentByTitle" resultMap="baseResultMap" parameterType="java.lang.String">
+        SELECT * FROM problem_content WHERE 1=1 
+        <if test=" _parameter!=null and _parameter != '' "> 
+        	and title like '%${_parameter}%'
+        </if>
+    </select> -->
+    
+    <!-- <select id="getContentByTitle" resultMap="baseResultMap"  >
+        SELECT * FROM problem_content WHERE title like '%${_parameter}%' and pmId=#{pmId}
+    </select> -->
+    
+    <select id="getContentByIdCount" parameterType="long" resultType="int">
+        SELECT count(1) FROM problem_content WHERE pmId=#{pmId} 
+    </select>
+    
+    <insert id="addContent">
+    	INSERT INTO problem_content (title,reason,solution,create_time,pmId,status)
+    	VALUES
+    	(#{title},#{reason},#{solution},NOW(),#{pmId},#{status})
+    </insert>
+    
+    <update id="updateByIdContent">
+    	UPDATE problem_content 
+    	<set>
+	    	<if test="title !=null ">
+	    		title=#{title},
+	    	</if>
+	    	<if test="reason !=null ">
+	    		reason=#{reason},
+	    	</if>
+	    	<if test="solution !=null ">
+	    		solution=#{solution},
+	    	</if>
+	    	<if test="pmId !=null ">
+	    		pmId=#{pmId},
+	    	</if>
+	    	<if test="status !=null ">
+	    		status=#{status},
+	    	</if>
+	    	update_time = NOW() 
+    	</set>
+    	where id=#{id}
+    </update>
+    
+</mapper>

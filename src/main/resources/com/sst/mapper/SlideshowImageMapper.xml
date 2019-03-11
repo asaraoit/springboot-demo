@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sst.mapper.SlideshowImageMapper">
+    <resultMap id="baseResultMap" type="com.sst.model.SlideshowImage">
+        <id column="id" property="id"></id>
+        <result column="image_name" property="imageName"></result>
+        <result column="level" property="level"></result>
+        <result column="status" property="status"></result>
+    </resultMap>
+</mapper>
